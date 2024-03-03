@@ -1,22 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_file_downloader/flutter_file_downloader.dart';
 import 'package:gap/gap.dart';
+import 'package:share_plus/share_plus.dart';
 
-class ImageScreen extends StatefulWidget {
+class ImageScreen extends StatelessWidget {
   final String? img;
-  // final void Function()? onDownload;
-  // final void Function()? onShare;
+
   const ImageScreen({
     super.key,
     required this.img,
-    // required this.onDownload,
-    // required this.onShare,
   });
 
-  @override
-  State<ImageScreen> createState() => _ImageScreenState();
-}
-
-class _ImageScreenState extends State<ImageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,7 +19,7 @@ class _ImageScreenState extends State<ImageScreen> {
       body: Container(
         margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 40),
         child: Image.network(
-          widget.img.toString(),
+          img.toString(),
           fit: BoxFit.cover,
         ),
       ),
@@ -38,12 +33,31 @@ class _ImageScreenState extends State<ImageScreen> {
       actions: [
         IconButton(
           icon: const Icon(Icons.download),
-          onPressed: () {},
+          onPressed: () {
+            showDialog(
+              context: context,
+              builder: (context) {
+                return Container(
+                  alignment: Alignment.center,
+                  child: CircularProgressIndicator(),
+                );
+              },
+            );
+            FileDownloader.downloadFile(
+              url: img.toString(),
+              onDownloadCompleted: (path) {
+                Navigator.pop(context);
+                EasyLoading.showToast('downloaded success', dismissOnTap: true);
+              },
+            );
+          },
         ),
         const Gap(10),
         IconButton(
           icon: const Icon(Icons.share),
-          onPressed: () {},
+          onPressed: () {
+            Share.share(img.toString());
+          },
         ),
         const Gap(10),
       ],

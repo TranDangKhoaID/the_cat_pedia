@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/breed_controller.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
+import 'package:the_cat_pedia/models/breed_model.dart';
 import 'package:the_cat_pedia/pages/cat_screen.dart';
 import 'package:the_cat_pedia/pages/image_screen.dart';
+import 'package:the_cat_pedia/widgets/breed_box.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,6 +19,7 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final breedController = Get.put(BreedController());
+  final search = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,6 +28,19 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
+          Expanded(
+            child: Container(
+              padding: EdgeInsets.all(10),
+              child: TextField(
+                controller: search,
+                onChanged: (value) => breedController.searchByBreedName(value),
+                decoration: InputDecoration(
+                  hintText: 'Search name',
+                  prefixIcon: Icon(Icons.search),
+                ),
+              ),
+            ),
+          ),
           IconButton(
             onPressed: () {},
             icon: const Icon(
@@ -38,111 +55,77 @@ class _HomeScreenState extends State<HomeScreen> {
           //const Gap(10),
           imagesBreedWidget(),
           Gap(10),
-          breeds(),
+          Obx(
+            () => breedController.breeds.isNotEmpty
+                ? breedController.searchedBreeds.isNotEmpty
+                    ? breeds(breeds: breedController.searchedBreeds)
+                    : breeds(breeds: breedController.breeds)
+                : Expanded(child: Center(child: CircularProgressIndicator())),
+          ),
         ],
       ),
     );
   }
 
-  Obx breeds() {
-    return Obx(
-      () => Expanded(
-        child: GridView.builder(
-          itemCount: breedController.breeds.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 5.0,
-          ),
-          itemBuilder: (context, index) {
-            final breed = breedController.breeds[index];
-            return GestureDetector(
-              onTap: () => Get.to(
-                () => CatScreen(
-                  breed: breed,
-                  index: index,
-                ),
-              ),
-              child: Container(
-                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade200,
-                  borderRadius: BorderRadius.circular(15),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(10),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Container(
-                          margin: EdgeInsets.all(5),
-                          child: Image.asset(
-                            ImagesConstant.cat,
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      Gap(5),
-                      Text(
-                        breed.name ?? 'No Name',
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 18,
-                        ),
-                      ),
-                      Gap(3),
-                      Row(
-                        children: [
-                          Icon(Icons.place_outlined, color: Colors.red),
-                          Flexible(
-                            child: Text(
-                              breed.origin ?? 'No Origin',
-                              overflow: TextOverflow.clip,
-                            ),
-                          ),
-                        ],
-                      )
-                    ],
-                  ),
-                ),
-              ),
-            );
-          },
+  Widget breeds({
+    required breeds,
+  }) {
+    return Expanded(
+      child: GridView.builder(
+        itemCount: breeds.length,
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          crossAxisSpacing: 5.0,
         ),
+        itemBuilder: (context, index) {
+          final breed = breeds[index];
+          return GestureDetector(
+            onTap: () => Get.to(
+              () => CatScreen(
+                breed: breed,
+                index: index,
+              ),
+            ),
+            child: BreedBoxHome(breed: breed),
+          );
+        },
       ),
     );
   }
 
   Widget imagesBreedWidget() {
-    return SizedBox(
-      height: 90,
-      child: Obx(
-        () => ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: breedController.images.length,
-          itemBuilder: (context, index) {
-            final image = breedController.images[index];
-            return GestureDetector(
-              onTap: () => Get.to(() => ImageScreen(img: image.url.toString())),
-              child: Container(
-                alignment: Alignment.center,
-                margin: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 5,
-                ),
-                child: ClipOval(
-                  child: Image.network(
-                    image.url.toString(),
-                    width: 70,
-                    height: 70,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+    return Obx(
+      () => breedController.images.isNotEmpty
+          ? SizedBox(
+              height: 80,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: breedController.images.length,
+                itemBuilder: (context, index) {
+                  final image = breedController.images[index];
+                  return GestureDetector(
+                    onTap: () =>
+                        Get.to(() => ImageScreen(img: image.url.toString())),
+                    child: Container(
+                      alignment: Alignment.center,
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 10,
+                        vertical: 5,
+                      ),
+                      child: ClipOval(
+                        child: Image.network(
+                          image.url.toString(),
+                          width: 70,
+                          height: 70,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  );
+                },
               ),
-            );
-          },
-        ),
-      ),
+            )
+          : const LinearProgressIndicator(),
     );
   }
 
@@ -159,17 +142,23 @@ class _HomeScreenState extends State<HomeScreen> {
               fontWeight: FontWeight.w700,
             ),
           ),
-          Container(
-            padding: EdgeInsets.all(8),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10),
-              color: AppColors.primary,
-            ),
-            child: Text(
-              'Get Random',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
+          GestureDetector(
+            onTap: () {
+              breedController.images.clear();
+              breedController.get10ImageRandom();
+            },
+            child: Container(
+              padding: EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                color: AppColors.primary,
+              ),
+              child: Text(
+                'Get Random',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
             ),
           ),

@@ -120,12 +120,7 @@ class _CatScreenState extends State<CatScreen> {
       builder: (context) {
         return Scaffold(
           body: Container(
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(ImagesConstant.bgBreed),
-                fit: BoxFit.cover,
-              ),
-            ),
+            color: AppColors.primary,
             padding: EdgeInsets.all(10),
             child: GridView.builder(
               itemCount: DetailBreedController.instance.images.length,
@@ -297,34 +292,28 @@ class _CatScreenState extends State<CatScreen> {
 
   Obx image() {
     return Obx(
-      () => Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          DetailBreedController.instance.images.isNotEmpty
-              ? Container(
-                  alignment: Alignment.center,
-                  width: double.infinity,
-                  height: 200,
-                  child: InstaImageViewer(
-                    child: Image(
-                      image: Image.network(
-                        DetailBreedController.instance.images.first.url
-                            .toString(),
-                        fit: BoxFit.cover,
-                      ).image,
-                    ),
-                  ),
-                )
-              : Shimmer.fromColors(
-                  baseColor: Colors.grey[400]!,
-                  highlightColor: Colors.grey[100]!,
-                  child: Container(
-                    height: 200,
-                    color: Colors.grey,
-                  ),
+      () => DetailBreedController.instance.images.isNotEmpty
+          ? Container(
+              alignment: Alignment.center,
+              width: double.infinity,
+              height: 200,
+              child: InstaImageViewer(
+                child: Image(
+                  image: Image.network(
+                    DetailBreedController.instance.images.first.url.toString(),
+                    fit: BoxFit.cover,
+                  ).image,
                 ),
-        ],
-      ),
+              ),
+            )
+          : Shimmer.fromColors(
+              baseColor: Colors.grey[400]!,
+              highlightColor: Colors.grey[100]!,
+              child: Container(
+                height: 200,
+                color: Colors.grey,
+              ),
+            ),
     );
   }
 }
