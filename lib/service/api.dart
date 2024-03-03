@@ -15,15 +15,15 @@ class API {
     return "$baseUrl" "images/$imagesID";
   }
 
-  // static String urlImageID({
-  //   required String? imagesID,
-  // }) {
-  //   if (imagesID != null) {
-  //     return "https://cdn2.thecatapi.com/images/O3btzLlsO.png";
-  //   } else {
-  //     return "https://cdn2.thecatapi.com/images/$imagesID.jpg";
-  //   }
-  // }
+  static String getImageByBreedID({
+    required String breedID,
+  }) {
+    if (breedID.isNotEmpty) {
+      return "$baseUrl" "images/search?limit=10&breed_ids=$breedID";
+    } else {
+      return "";
+    }
+  }
 
   static String get10ImagesRandom = "${baseUrl}images/search?limit=10";
 }

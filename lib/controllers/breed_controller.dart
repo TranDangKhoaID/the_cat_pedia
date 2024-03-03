@@ -70,7 +70,6 @@ class BreedController extends GetxController {
 
       if (response.statusCode == 200) {
         isLoading.value = false;
-        //BreedModel model = BreedModel.fromJson(responseBody);
         for (var item in responseBody) {
           ImageBreedModel model = ImageBreedModel.fromJson(item);
           images.add(model);

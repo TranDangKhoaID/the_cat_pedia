@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/breed_controller.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
+import 'package:the_cat_pedia/pages/cat_screen.dart';
 import 'package:the_cat_pedia/pages/image_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -21,7 +22,15 @@ class _HomeScreenState extends State<HomeScreen> {
       //backgroundColor: AppColors.primary,
       appBar: AppBar(
         elevation: 0,
-        title: Text('List of Breeds'),
+        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.settings,
+            ),
+          )
+        ],
       ),
       body: Column(
         children: [
@@ -46,47 +55,55 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           itemBuilder: (context, index) {
             final breed = breedController.breeds[index];
-            return Container(
-              margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-              decoration: BoxDecoration(
-                color: Colors.grey.shade200,
-                borderRadius: BorderRadius.circular(15),
+            return GestureDetector(
+              onTap: () => Get.to(
+                () => CatScreen(
+                  breed: breed,
+                  index: index,
+                ),
               ),
-              child: Padding(
-                padding: const EdgeInsets.all(10),
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(5),
-                        child: Image.asset(
-                          ImagesConstant.cat,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                    Gap(5),
-                    Text(
-                      breed.name ?? 'No Name',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontWeight: FontWeight.bold,
-                        fontSize: 18,
-                      ),
-                    ),
-                    Gap(3),
-                    Row(
-                      children: [
-                        Icon(Icons.place_outlined, color: Colors.red),
-                        Flexible(
-                          child: Text(
-                            breed.origin ?? 'No Origin',
-                            overflow: TextOverflow.clip,
+              child: Container(
+                margin: EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade200,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(10),
+                  child: Column(
+                    children: [
+                      Expanded(
+                        child: Container(
+                          margin: EdgeInsets.all(5),
+                          child: Image.asset(
+                            ImagesConstant.cat,
+                            fit: BoxFit.cover,
                           ),
                         ),
-                      ],
-                    )
-                  ],
+                      ),
+                      Gap(5),
+                      Text(
+                        breed.name ?? 'No Name',
+                        textAlign: TextAlign.center,
+                        style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
+                      ),
+                      Gap(3),
+                      Row(
+                        children: [
+                          Icon(Icons.place_outlined, color: Colors.red),
+                          Flexible(
+                            child: Text(
+                              breed.origin ?? 'No Origin',
+                              overflow: TextOverflow.clip,
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             );
