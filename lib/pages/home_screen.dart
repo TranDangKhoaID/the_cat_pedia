@@ -6,6 +6,7 @@ import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/breed_controller.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
 import 'package:the_cat_pedia/models/breed_model.dart';
+import 'package:the_cat_pedia/pages/breed_name_delegate.dart';
 import 'package:the_cat_pedia/pages/cat_screen.dart';
 import 'package:the_cat_pedia/pages/image_screen.dart';
 import 'package:the_cat_pedia/widgets/breed_box.dart';
@@ -28,17 +29,15 @@ class _HomeScreenState extends State<HomeScreen> {
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
-          Expanded(
-            child: Container(
-              padding: EdgeInsets.all(10),
-              child: TextField(
-                controller: search,
-                onChanged: (value) => breedController.searchByBreedName(value),
-                decoration: InputDecoration(
-                  hintText: 'Search name',
-                  prefixIcon: Icon(Icons.search),
-                ),
-              ),
+          IconButton(
+            onPressed: () {
+              showSearch(
+                context: context,
+                delegate: BreedNameDelegate(breedController),
+              );
+            },
+            icon: const Icon(
+              Icons.search,
             ),
           ),
           IconButton(
@@ -57,9 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
           Gap(10),
           Obx(
             () => breedController.breeds.isNotEmpty
-                ? breedController.searchedBreeds.isNotEmpty
-                    ? breeds(breeds: breedController.searchedBreeds)
-                    : breeds(breeds: breedController.breeds)
+                ? breeds(breeds: breedController.breeds)
                 : Expanded(child: Center(child: CircularProgressIndicator())),
           ),
         ],

@@ -1,10 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:ffi';
-import 'dart:io';
 
-import 'package:flutter/material.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:the_cat_pedia/models/breed_model.dart';
 import 'package:the_cat_pedia/models/image_breed_model.dart';
@@ -15,7 +12,7 @@ class BreedController extends GetxController {
   //var breed = BreedModel().obs;
   RxList<BreedModel> breeds = <BreedModel>[].obs;
   RxList<ImageBreedModel> images = <ImageBreedModel>[].obs;
-  RxList<BreedModel> searchedBreeds = <BreedModel>[].obs;
+  //RxList<BreedModel> searchedBreeds = <BreedModel>[].obs;
   var isLoading = true.obs;
 
   @override
@@ -23,19 +20,6 @@ class BreedController extends GetxController {
     get10ImageRandom();
     getBreed();
     super.onInit();
-  }
-
-  void searchByBreedName(String keyword) {
-    if (keyword.isEmpty) {
-      return;
-    }
-
-    searchedBreeds.clear();
-    for (var breed in breeds) {
-      if (breed.name!.toLowerCase().contains(keyword.toLowerCase())) {
-        searchedBreeds.add(breed);
-      }
-    }
   }
 
   Future<dynamic> getBreed() async {
