@@ -47,6 +47,7 @@ class BreedBoxHome extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
+                fontFamily: 'PlaypenSans',
               ),
             ),
             Gap(3),

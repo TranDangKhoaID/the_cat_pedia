@@ -26,6 +26,22 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       //backgroundColor: AppColors.primary,
       appBar: AppBar(
+        title: Row(
+          children: [
+            CircleAvatar(
+              backgroundImage: AssetImage(ImagesConstant.logo),
+              radius: 20,
+            ),
+            Gap(10),
+            Text(
+              'The Cat Pedia',
+              style: TextStyle(
+                color: Colors.black,
+                fontFamily: 'PlaypenSans',
+              ),
+            ),
+          ],
+        ),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
@@ -141,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
+              fontFamily: 'PlaypenSans',
             ),
           ),
           GestureDetector(
@@ -159,6 +176,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'PlaypenSans',
                 ),
               ),
             ),
