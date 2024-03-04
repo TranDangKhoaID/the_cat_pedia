@@ -7,9 +7,11 @@ class BreedBoxHome extends StatelessWidget {
   const BreedBoxHome({
     super.key,
     required this.breed,
+    required this.url,
   });
 
   final BreedModel breed;
+  final String url;
 
   @override
   Widget build(BuildContext context) {
@@ -20,17 +22,24 @@ class BreedBoxHome extends StatelessWidget {
         borderRadius: BorderRadius.circular(15),
       ),
       child: Padding(
-        padding: const EdgeInsets.all(10),
+        padding: const EdgeInsets.all(5),
         child: Column(
           children: [
             Expanded(
               child: Container(
-                margin: EdgeInsets.all(5),
-                child: Image.asset(
-                  ImagesConstant.cat,
-                  fit: BoxFit.cover,
-                ),
-              ),
+                  width: double.infinity,
+                  margin: EdgeInsets.all(5),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(15),
+                    child: Image.network(
+                      url,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                        ImagesConstant.cat,
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )),
             ),
             Gap(5),
             Text(
@@ -38,7 +47,6 @@ class BreedBoxHome extends StatelessWidget {
               textAlign: TextAlign.center,
               style: TextStyle(
                 fontWeight: FontWeight.bold,
-                fontSize: 18,
               ),
             ),
             Gap(3),

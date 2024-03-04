@@ -9,6 +9,7 @@ class API {
     'x-api-key': apiKey,
   };
   static String getBreeds = "${baseUrl}breeds";
+
   static String getImageID({
     required imagesID,
   }) {
@@ -16,6 +17,16 @@ class API {
   }
 
   static String getImageByBreedID({
+    required String breedID,
+  }) {
+    if (breedID.isNotEmpty) {
+      return "$baseUrl" "images/search?&breed_ids=$breedID";
+    } else {
+      return "";
+    }
+  }
+
+  static String get10ImageByBreedID({
     required String breedID,
   }) {
     if (breedID.isNotEmpty) {

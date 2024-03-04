@@ -76,6 +76,7 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         itemBuilder: (context, index) {
           final breed = breeds[index];
+          final url = breedController.urlImages[index];
           return GestureDetector(
             onTap: () => Get.to(
               () => CatScreen(
@@ -83,7 +84,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 index: index,
               ),
             ),
-            child: BreedBoxHome(breed: breed),
+            child: BreedBoxHome(
+              breed: breed,
+              url: url,
+            ),
           );
         },
       ),

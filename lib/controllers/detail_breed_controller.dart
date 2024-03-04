@@ -9,6 +9,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 class DetailBreedController extends GetxController {
   List<ImageBreedModel> images = <ImageBreedModel>[].obs;
+
   static DetailBreedController get instance => Get.find();
 
   Future<dynamic> getImageByBreedID({
@@ -16,7 +17,7 @@ class DetailBreedController extends GetxController {
   }) async {
     try {
       final response = await http.get(
-        Uri.parse(API.getImageByBreedID(breedID: breedID)),
+        Uri.parse(API.get10ImageByBreedID(breedID: breedID)),
       );
       List<dynamic> responseBody = json.decode(response.body);
       if (response.statusCode == 200) {
