@@ -34,9 +34,8 @@ class BreedController extends GetxController {
         isLoading.value = false;
         //BreedModel model = BreedModel.fromJson(responseBody);
         for (var item in responseBody) {
-          await getImageByBreedID(breedID: item["id"]);
           BreedModel model = BreedModel.fromJson(item);
-
+          await getImageByBreedID(breedID: model.id.toString(), breed: model);
           breeds.add(model);
         }
       } else {
@@ -67,6 +66,7 @@ class BreedController extends GetxController {
 
   Future<dynamic> getImageByBreedID({
     required String breedID,
+    required BreedModel breed,
   }) async {
     try {
       final response = await http.get(
@@ -76,7 +76,7 @@ class BreedController extends GetxController {
       if (response.statusCode == 200) {
         for (var item in responseBody) {
           String url = item["url"];
-          urlImages.add(url);
+          breed.url = url;
         }
       } else {
         print('>>>error get image by breed id: something_went_wrong');

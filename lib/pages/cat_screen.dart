@@ -43,7 +43,18 @@ class _CatScreenState extends State<CatScreen> {
       body: SingleChildScrollView(
         child: Column(
           children: [
-            image(),
+            Obx(
+              () => DetailBreedController.instance.images.isNotEmpty
+                  ? image(images: DetailBreedController.instance.images)
+                  : Shimmer.fromColors(
+                      baseColor: Colors.grey[400]!,
+                      highlightColor: Colors.grey[100]!,
+                      child: Container(
+                        height: 200,
+                        color: Colors.grey,
+                      ),
+                    ),
+            ),
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 20),
               child: Column(
@@ -93,17 +104,18 @@ class _CatScreenState extends State<CatScreen> {
                   Gap(10),
                   attributeTable(),
                   TextButton.icon(
-                    onPressed: () => DetailBreedController.instance
-                        .launchUrlWWeb(widget.breed.wikipedia_url.toString()),
-                    icon: Icon(Icons.open_in_new),
-                    label: Text('See more with wikipedia'),
-                  ),
-                  TextButton.icon(
                     onPressed: () {
                       modalBottomSheetImages(context);
                     },
                     icon: Icon(Icons.image),
                     label: Text('See more with images'),
+                  ),
+                  Divider(),
+                  TextButton.icon(
+                    onPressed: () => DetailBreedController.instance
+                        .launchUrlWWeb(widget.breed.wikipedia_url.toString()),
+                    icon: Icon(Icons.open_in_new),
+                    label: Text('See more with wikipedia'),
                   ),
                 ],
               ),
@@ -290,30 +302,19 @@ class _CatScreenState extends State<CatScreen> {
     );
   }
 
-  Obx image() {
-    return Obx(
-      () => DetailBreedController.instance.images.isNotEmpty
-          ? Container(
-              alignment: Alignment.center,
-              width: double.infinity,
-              height: 200,
-              child: InstaImageViewer(
-                child: Image(
-                  image: Image.network(
-                    DetailBreedController.instance.images.first.url.toString(),
-                    fit: BoxFit.cover,
-                  ).image,
-                ),
-              ),
-            )
-          : Shimmer.fromColors(
-              baseColor: Colors.grey[400]!,
-              highlightColor: Colors.grey[100]!,
-              child: Container(
-                height: 200,
-                color: Colors.grey,
-              ),
-            ),
+  Widget image({required images}) {
+    return Container(
+      alignment: Alignment.center,
+      width: double.infinity,
+      height: 200,
+      child: InstaImageViewer(
+        child: Image(
+          image: Image.network(
+            images.first.url.toString(),
+            fit: BoxFit.cover,
+          ).image,
+        ),
+      ),
     );
   }
 }

@@ -44,4 +44,19 @@ class DetailBreedController extends GetxController {
       EasyLoading.showError('Không thể mở ứng dụng $uri');
     }
   }
+
+  Future<dynamic> launchEmail(String email) async {
+    final Uri emailLaunchUri = Uri(
+      scheme: 'mailto',
+      path: email,
+      queryParameters: {
+        'subject': 'Support',
+        'body': 'Content',
+      },
+    );
+
+    if (!await launchUrl(emailLaunchUri)) {
+      EasyLoading.showError('Không thể mở ứng dụng email $emailLaunchUri');
+    }
+  }
 }

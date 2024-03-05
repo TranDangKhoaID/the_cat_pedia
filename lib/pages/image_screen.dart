@@ -39,7 +39,7 @@ class ImageScreen extends StatelessWidget {
               builder: (context) {
                 return Container(
                   alignment: Alignment.center,
-                  child: CircularProgressIndicator(),
+                  child: const CircularProgressIndicator(),
                 );
               },
             );

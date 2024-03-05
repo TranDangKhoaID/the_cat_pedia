@@ -27,19 +27,26 @@ class BreedBoxHome extends StatelessWidget {
           children: [
             Expanded(
               child: Container(
-                  width: double.infinity,
-                  margin: EdgeInsets.all(5),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(15),
-                    child: Image.network(
-                      url,
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) => Image.asset(
+                width: double.infinity,
+                margin: EdgeInsets.all(5),
+                child: breed.url != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(15),
+                        child: Image.network(
+                          url,
+                          fit: BoxFit.cover,
+                          errorBuilder: (context, error, stackTrace) =>
+                              Image.asset(
+                            ImagesConstant.cat,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Image.asset(
                         ImagesConstant.cat,
                         fit: BoxFit.cover,
                       ),
-                    ),
-                  )),
+              ),
             ),
             Gap(5),
             Text(

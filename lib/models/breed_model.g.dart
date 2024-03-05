@@ -43,7 +43,7 @@ BreedModel _$BreedModelFromJson(Map<String, dynamic> json) => BreedModel(
       suppressed_tail: (json['suppressed_tail'] as num?)?.toDouble(),
       short_legs: (json['short_legs'] as num?)?.toDouble(),
       hypoallergenic: (json['hypoallergenic'] as num?)?.toDouble(),
-    );
+    )..url = json['url'] as String?;
 
 Map<String, dynamic> _$BreedModelToJson(BreedModel instance) =>
     <String, dynamic>{
@@ -81,4 +81,5 @@ Map<String, dynamic> _$BreedModelToJson(BreedModel instance) =>
       'suppressed_tail': instance.suppressed_tail,
       'short_legs': instance.short_legs,
       'hypoallergenic': instance.hypoallergenic,
+      'url': instance.url,
     };

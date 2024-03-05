@@ -39,6 +39,7 @@ class BreedModel {
   double? suppressed_tail;
   double? short_legs;
   double? hypoallergenic;
+  String? url;
 
   BreedModel({
     this.weight,

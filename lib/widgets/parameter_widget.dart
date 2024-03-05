@@ -70,8 +70,8 @@ class Parameter01Widget extends StatelessWidget {
               child: Text(
                 title,
                 style: TextStyle(
-                  //fontSize: 18,
                   fontWeight: FontWeight.bold,
+                  fontFamily: 'Roboto',
                 ),
               ),
             ),

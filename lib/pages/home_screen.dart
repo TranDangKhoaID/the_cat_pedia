@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/breed_controller.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
-import 'package:the_cat_pedia/models/breed_model.dart';
 import 'package:the_cat_pedia/pages/breed_name_delegate.dart';
 import 'package:the_cat_pedia/pages/cat_screen.dart';
 import 'package:the_cat_pedia/pages/image_screen.dart';
+import 'package:the_cat_pedia/pages/setting_screen.dart';
 import 'package:the_cat_pedia/widgets/breed_box.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -57,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () => Get.to(() => SettingScreen()),
             icon: const Icon(
               Icons.settings,
             ),
@@ -68,7 +67,11 @@ class _HomeScreenState extends State<HomeScreen> {
         children: [
           titleImages(),
           //const Gap(10),
-          imagesBreedWidget(),
+          Obx(
+            () => breedController.images.isNotEmpty
+                ? imagesBreedWidget(images: breedController.images)
+                : const LinearProgressIndicator(),
+          ),
           Gap(10),
           Obx(
             () => breedController.breeds.isNotEmpty
@@ -92,7 +95,6 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
         itemBuilder: (context, index) {
           final breed = breeds[index];
-          final url = breedController.urlImages[index];
           return GestureDetector(
             onTap: () => Get.to(
               () => CatScreen(
@@ -102,7 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             child: BreedBoxHome(
               breed: breed,
-              url: url,
+              url: breed.url.toString(),
             ),
           );
         },
@@ -110,39 +112,34 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  Widget imagesBreedWidget() {
-    return Obx(
-      () => breedController.images.isNotEmpty
-          ? SizedBox(
-              height: 80,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: breedController.images.length,
-                itemBuilder: (context, index) {
-                  final image = breedController.images[index];
-                  return GestureDetector(
-                    onTap: () =>
-                        Get.to(() => ImageScreen(img: image.url.toString())),
-                    child: Container(
-                      alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(
-                        horizontal: 10,
-                        vertical: 5,
-                      ),
-                      child: ClipOval(
-                        child: Image.network(
-                          image.url.toString(),
-                          width: 70,
-                          height: 70,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  );
-                },
+  Widget imagesBreedWidget({required images}) {
+    return SizedBox(
+      height: 80,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: images.length,
+        itemBuilder: (context, index) {
+          final image = images[index];
+          return GestureDetector(
+            onTap: () => Get.to(() => ImageScreen(img: image.url.toString())),
+            child: Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 5,
               ),
-            )
-          : const LinearProgressIndicator(),
+              child: ClipOval(
+                child: Image.network(
+                  image.url.toString(),
+                  width: 70,
+                  height: 70,
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
+          );
+        },
+      ),
     );
   }
 
@@ -157,7 +154,6 @@ class _HomeScreenState extends State<HomeScreen> {
             style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w700,
-              fontFamily: 'PlaypenSans',
             ),
           ),
           GestureDetector(
@@ -176,7 +172,6 @@ class _HomeScreenState extends State<HomeScreen> {
                 style: TextStyle(
                   color: Colors.white,
                   fontWeight: FontWeight.bold,
-                  fontFamily: 'PlaypenSans',
                 ),
               ),
             ),
