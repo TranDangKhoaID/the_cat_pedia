@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:the_cat_pedia/constants/constants.dart';
 import 'package:the_cat_pedia/controllers/detail_breed_controller.dart';
+import 'package:the_cat_pedia/heplers/admob_hepler.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
 
 class SettingScreen extends StatelessWidget {
@@ -107,6 +109,13 @@ class SettingScreen extends StatelessWidget {
             color: Colors.black12,
           ),
         ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        child: AdWidget(
+          ad: AdmonHelper.getBannerSettingAd()..load(),
+          key: UniqueKey(),
+        ),
       ),
     );
   }

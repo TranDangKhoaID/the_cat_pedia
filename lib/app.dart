@@ -21,7 +21,7 @@ class _AppState extends State<App> {
           useMaterial3: true,
           fontFamily: 'PlaypenSans'),
       builder: EasyLoading.init(),
-      home: HomeScreen(),
+      home: const HomeScreen(),
     );
   }
 }

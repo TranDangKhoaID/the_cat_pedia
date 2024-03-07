@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:insta_image_viewer/insta_image_viewer.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/detail_breed_controller.dart';
+import 'package:the_cat_pedia/heplers/admob_hepler.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
 import 'package:the_cat_pedia/models/breed_model.dart';
 import 'package:the_cat_pedia/widgets/parameter_widget.dart';
@@ -21,11 +21,13 @@ class CatScreen extends StatefulWidget {
 
 class _CatScreenState extends State<CatScreen> {
   final images = DetailBreedController.instance.images;
+  AdmonHelper admonHelper = AdmonHelper();
 
   @override
   void initState() {
     super.initState();
     DetailBreedController.instance.getImageByBreedID(breedID: widget.breed.id);
+    admonHelper.createCatInterad();
   }
 
   @override
@@ -39,6 +41,13 @@ class _CatScreenState extends State<CatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cat#${widget.index + 1}'),
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            admonHelper.showCatInterad();
+            Navigator.of(context).pop();
+          },
+        ),
       ),
       body: SingleChildScrollView(
         child: Column(
@@ -62,17 +71,17 @@ class _CatScreenState extends State<CatScreen> {
                 children: [
                   Text(
                     widget.breed.name.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 30,
                     ),
                   ),
-                  Gap(10),
+                  const Gap(10),
                   paramtersBox(),
-                  Gap(10),
+                  const Gap(10),
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
+                      const Text(
                         'Temperament',
                         style: TextStyle(
                           fontSize: 20,
@@ -81,12 +90,12 @@ class _CatScreenState extends State<CatScreen> {
                       ),
                       Text(
                         widget.breed.temperament.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
-                      Gap(10),
-                      Text(
+                      const Gap(10),
+                      const Text(
                         'Desription',
                         style: TextStyle(
                           fontSize: 20,
@@ -95,32 +104,39 @@ class _CatScreenState extends State<CatScreen> {
                       ),
                       Text(
                         widget.breed.description.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                           fontSize: 16,
                         ),
                       ),
                     ],
                   ),
-                  Gap(10),
+                  const Gap(10),
                   attributeTable(),
                   TextButton.icon(
                     onPressed: () {
                       modalBottomSheetImages(context);
                     },
-                    icon: Icon(Icons.image),
-                    label: Text('See more with images'),
+                    icon: const Icon(Icons.image),
+                    label: const Text('See more with images'),
                   ),
-                  Divider(),
+                  const Divider(),
                   TextButton.icon(
                     onPressed: () => DetailBreedController.instance
                         .launchUrlWWeb(widget.breed.wikipedia_url.toString()),
-                    icon: Icon(Icons.open_in_new),
-                    label: Text('See more with wikipedia'),
+                    icon: const Icon(Icons.open_in_new),
+                    label: const Text('See more with wikipedia'),
                   ),
                 ],
               ),
             ),
           ],
+        ),
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        child: AdWidget(
+          ad: AdmonHelper.getBannerCatAd()..load(),
+          key: UniqueKey(),
         ),
       ),
     );
@@ -133,7 +149,7 @@ class _CatScreenState extends State<CatScreen> {
         return Scaffold(
           body: Container(
             color: AppColors.primary,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             child: GridView.builder(
               itemCount: DetailBreedController.instance.images.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -167,13 +183,13 @@ class _CatScreenState extends State<CatScreen> {
           title: 'country',
           content: widget.breed.origin.toString(),
         ),
-        Gap(10),
+        const Gap(10),
         ParamterBox(
           color: Colors.green.shade200,
           title: 'life span (year)',
           content: widget.breed.life_span.toString(),
         ),
-        Gap(10),
+        const Gap(10),
         ParamterBox(
           color: Colors.blue.shade200,
           title: 'weight (kg)',
@@ -187,7 +203,7 @@ class _CatScreenState extends State<CatScreen> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(
+        const Text(
           'Attributes',
           style: TextStyle(
             fontSize: 20,
@@ -306,7 +322,7 @@ class _CatScreenState extends State<CatScreen> {
     return Container(
       alignment: Alignment.center,
       width: double.infinity,
-      height: 200,
+      height: 250,
       child: InstaImageViewer(
         child: Image(
           image: Image.network(
@@ -335,7 +351,7 @@ class ParamterBox extends StatelessWidget {
   Widget build(BuildContext context) {
     return Expanded(
       child: Container(
-        padding: EdgeInsets.all(5),
+        padding: const EdgeInsets.all(5),
         width: 150,
         decoration: BoxDecoration(
           color: color,
@@ -349,14 +365,14 @@ class ParamterBox extends StatelessWidget {
               child: Text(
                 content,
                 overflow: TextOverflow.clip,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 19,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,
               ),
             ),
-            Gap(10),
+            const Gap(10),
             Text(
               title,
               textAlign: TextAlign.center,

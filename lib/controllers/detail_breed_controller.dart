@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:the_cat_pedia/models/image_breed_model.dart';
@@ -26,10 +27,10 @@ class DetailBreedController extends GetxController {
           images.add(model);
         }
       } else {
-        print('>>>error get image by breed id: something_went_wrong');
+        debugPrint('>>>error get image by breed id: something_went_wrong');
       }
     } catch (e) {
-      print('>>>error get image by breed id: ${e.toString()}');
+      debugPrint('>>>error get image by breed id: ${e.toString()}');
     }
     return null;
   }

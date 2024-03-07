@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:the_cat_pedia/constants/images_constant.dart';
 import 'package:the_cat_pedia/controllers/breed_controller.dart';
+import 'package:the_cat_pedia/heplers/admob_hepler.dart';
 import 'package:the_cat_pedia/manager/color_manager.dart';
 import 'package:the_cat_pedia/pages/breed_name_delegate.dart';
 import 'package:the_cat_pedia/pages/cat_screen.dart';
 import 'package:the_cat_pedia/pages/image_screen.dart';
 import 'package:the_cat_pedia/pages/setting_screen.dart';
 import 'package:the_cat_pedia/widgets/breed_box.dart';
+import 'package:the_cat_pedia/widgets/cached_network_image.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -20,12 +23,20 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final breedController = Get.put(BreedController());
   final search = TextEditingController();
+  AdmonHelper admonHelper = AdmonHelper();
+
+  @override
+  void initState() {
+    super.initState();
+    admonHelper.createImageInterad();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       //backgroundColor: AppColors.primary,
       appBar: AppBar(
-        title: Row(
+        title: const Row(
           children: [
             CircleAvatar(
               backgroundImage: AssetImage(ImagesConstant.logo),
@@ -34,10 +45,6 @@ class _HomeScreenState extends State<HomeScreen> {
             Gap(10),
             Text(
               'The Cat Pedia',
-              style: TextStyle(
-                color: Colors.black,
-                fontFamily: 'PlaypenSans',
-              ),
             ),
           ],
         ),
@@ -56,7 +63,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
           IconButton(
-            onPressed: () => Get.to(() => SettingScreen()),
+            onPressed: () => Get.to(() => const SettingScreen()),
             icon: const Icon(
               Icons.settings,
             ),
@@ -66,19 +73,29 @@ class _HomeScreenState extends State<HomeScreen> {
       body: Column(
         children: [
           titleImages(),
-          //const Gap(10),
           Obx(
             () => breedController.images.isNotEmpty
                 ? imagesBreedWidget(images: breedController.images)
                 : const LinearProgressIndicator(),
           ),
-          Gap(10),
+          const Gap(10),
           Obx(
             () => breedController.breeds.isNotEmpty
                 ? breeds(breeds: breedController.breeds)
-                : Expanded(child: Center(child: CircularProgressIndicator())),
+                : const Expanded(
+                    child: Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  ),
           ),
         ],
+      ),
+      bottomNavigationBar: SizedBox(
+        height: 50,
+        child: AdWidget(
+          ad: AdmonHelper.getBannerHomeAd()..load(),
+          key: UniqueKey(),
+        ),
       ),
     );
   }
@@ -121,7 +138,10 @@ class _HomeScreenState extends State<HomeScreen> {
         itemBuilder: (context, index) {
           final image = images[index];
           return GestureDetector(
-            onTap: () => Get.to(() => ImageScreen(img: image.url.toString())),
+            onTap: () {
+              admonHelper.showImageInterad();
+              Get.to(() => ImageScreen(img: image.url.toString()));
+            },
             child: Container(
               alignment: Alignment.center,
               margin: const EdgeInsets.symmetric(
@@ -129,11 +149,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 vertical: 5,
               ),
               child: ClipOval(
-                child: Image.network(
-                  image.url.toString(),
-                  width: 70,
+                child: CachedNetWorkImageWidget(
+                  url: image.url.toString(),
                   height: 70,
-                  fit: BoxFit.cover,
+                  width: 70,
                 ),
               ),
             ),
@@ -162,12 +181,12 @@ class _HomeScreenState extends State<HomeScreen> {
               breedController.get10ImageRandom();
             },
             child: Container(
-              padding: EdgeInsets.all(8),
+              padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10),
                 color: AppColors.primary,
               ),
-              child: Text(
+              child: const Text(
                 'Get Random',
                 style: TextStyle(
                   color: Colors.white,

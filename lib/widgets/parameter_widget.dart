@@ -21,7 +21,7 @@ class ParameterWidget extends StatelessWidget {
               flex: 1,
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   //fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
@@ -44,7 +44,7 @@ class ParameterWidget extends StatelessWidget {
             ),
           ],
         ),
-        Divider(),
+        const Divider(),
       ],
     );
   }
@@ -69,7 +69,7 @@ class Parameter01Widget extends StatelessWidget {
               flex: 2,
               child: Text(
                 title,
-                style: TextStyle(
+                style: const TextStyle(
                   fontWeight: FontWeight.bold,
                   fontFamily: 'Roboto',
                 ),
@@ -83,7 +83,7 @@ class Parameter01Widget extends StatelessWidget {
                 minRating: 1,
                 allowHalfRating: true,
                 itemCount: 1,
-                itemBuilder: (context, _) => Icon(
+                itemBuilder: (context, _) => const Icon(
                   Icons.check_box,
                   color: Colors.green,
                 ),

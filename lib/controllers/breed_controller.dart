@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'dart:io';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:the_cat_pedia/models/breed_model.dart';
 import 'package:the_cat_pedia/models/image_breed_model.dart';
@@ -40,25 +41,25 @@ class BreedController extends GetxController {
         }
       } else {
         isLoading.value = false;
-        print('>>>error breed controller: something_went_wrong');
+        debugPrint('>>>error breed controller: something_went_wrong');
         // ShowToastDialog.showToast("something_went_wrong".tr);
         // throw Exception("failed_to_load_album".tr);
       }
     } on TimeoutException catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.message.toString()}');
+      debugPrint('>>>error breed controller: ${e.message.toString()}');
       // ShowToastDialog.showToast(e.message.toString());
     } on SocketException catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.message.toString()}');
+      debugPrint('>>>error breed controller: ${e.message.toString()}');
       // ShowToastDialog.showToast(e.message.toString());
     } on Error catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.toString()}');
+      debugPrint('>>>error breed controller: ${e.toString()}');
       // ShowToastDialog.showToast(e.toString());
     } catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.toString()}');
+      debugPrint('>>>error breed controller: ${e.toString()}');
       // ShowToastDialog.showToast(e.toString());
     }
     return null;
@@ -79,10 +80,10 @@ class BreedController extends GetxController {
           breed.url = url;
         }
       } else {
-        print('>>>error get image by breed id: something_went_wrong');
+        debugPrint('>>>error get image by breed id: something_went_wrong');
       }
     } catch (e) {
-      print('>>>error get image by breed id: ${e.toString()}');
+      debugPrint('>>>error get image by breed id: ${e.toString()}');
     }
     return null;
   }
@@ -104,25 +105,25 @@ class BreedController extends GetxController {
         //breeds.add(model);
       } else {
         isLoading.value = false;
-        print('>>>error breed controller: something_went_wrong');
+        debugPrint('>>>error breed controller: something_went_wrong');
         // ShowToastDialog.showToast("something_went_wrong".tr);
         // throw Exception("failed_to_load_album".tr);
       }
     } on TimeoutException catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.message.toString()}');
+      debugPrint('>>>error breed controller: ${e.message.toString()}');
       // ShowToastDialog.showToast(e.message.toString());
     } on SocketException catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.message.toString()}');
+      debugPrint('>>>error breed controller: ${e.message.toString()}');
       // ShowToastDialog.showToast(e.message.toString());
     } on Error catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.toString()}');
+      debugPrint('>>>error breed controller: ${e.toString()}');
       // ShowToastDialog.showToast(e.toString());
     } catch (e) {
       //ShowToastDialog.closeLoader();
-      print('>>>error breed controller: ${e.toString()}');
+      debugPrint('>>>error breed controller: ${e.toString()}');
       // ShowToastDialog.showToast(e.toString());
     }
     return null;
