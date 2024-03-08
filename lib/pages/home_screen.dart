@@ -52,12 +52,6 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
           IconButton(
-            onPressed: () {},
-            icon: const Icon(
-              Icons.videogame_asset_sharp,
-            ),
-          ),
-          IconButton(
             onPressed: () {
               showSearch(
                 context: context,
