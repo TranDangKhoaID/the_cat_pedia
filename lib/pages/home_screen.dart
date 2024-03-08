@@ -44,13 +44,19 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             Gap(10),
             Text(
-              'The Cat Pedia',
+              'Cat Pedia',
             ),
           ],
         ),
         elevation: 0,
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         actions: [
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.videogame_asset_sharp,
+            ),
+          ),
           IconButton(
             onPressed: () {
               showSearch(
