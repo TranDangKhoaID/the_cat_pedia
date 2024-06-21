@@ -23,36 +23,36 @@ class SettingScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const SizedBox(height: 10),
-          ListTile(
-            leading: Icon(
-              Icons.rate_review,
-              color: AppColors.primary,
-            ),
-            onTap: () {},
-            title: const Text(
-              "Rate us",
-            ),
-            trailing: const Icon(Icons.keyboard_arrow_right),
-          ),
-          const Divider(
-            height: 1,
-            color: Colors.black12,
-          ),
-          ListTile(
-            leading: Icon(
-              Icons.share,
-              color: AppColors.primary,
-            ),
-            onTap: () {},
-            title: const Text(
-              "Share App",
-            ),
-            trailing: const Icon(Icons.keyboard_arrow_right),
-          ),
-          const Divider(
-            height: 1,
-            color: Colors.black12,
-          ),
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.rate_review,
+          //     color: AppColors.primary,
+          //   ),
+          //   onTap: () {},
+          //   title: const Text(
+          //     "Rate us",
+          //   ),
+          //   trailing: const Icon(Icons.keyboard_arrow_right),
+          // ),
+          // const Divider(
+          //   height: 1,
+          //   color: Colors.black12,
+          // ),
+          // ListTile(
+          //   leading: Icon(
+          //     Icons.share,
+          //     color: AppColors.primary,
+          //   ),
+          //   onTap: () {},
+          //   title: const Text(
+          //     "Share App",
+          //   ),
+          //   trailing: const Icon(Icons.keyboard_arrow_right),
+          // ),
+          // const Divider(
+          //   height: 1,
+          //   color: Colors.black12,
+          // ),
           ListTile(
             leading: Icon(
               Icons.privacy_tip,

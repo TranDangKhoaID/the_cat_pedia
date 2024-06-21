@@ -20,12 +20,12 @@ class ImageScreen extends StatefulWidget {
 }
 
 class _ImageScreenState extends State<ImageScreen> {
-  AdmonHelper admonHelper = AdmonHelper();
+  //AdmonHelper admonHelper = AdmonHelper();
 
   @override
   void initState() {
     super.initState();
-    admonHelper.createImageInterad();
+    //admonHelper.createImageInterad();
   }
 
   @override
@@ -50,13 +50,13 @@ class _ImageScreenState extends State<ImageScreen> {
 
   AppBar appBar(BuildContext context) {
     return AppBar(
-      leading: IconButton(
-        icon: const Icon(Icons.arrow_back),
-        onPressed: () {
-          admonHelper.showImageInterad();
-          Navigator.of(context).pop();
-        },
-      ),
+      // leading: IconButton(
+      //   icon: const Icon(Icons.arrow_back),
+      //   onPressed: () {
+      //     admonHelper.showImageInterad();
+      //     Navigator.of(context).pop();
+      //   },
+      // ),
       elevation: 0,
       backgroundColor: Theme.of(context).colorScheme.inversePrimary,
       actions: [

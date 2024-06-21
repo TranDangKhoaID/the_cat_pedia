@@ -21,13 +21,13 @@ class CatScreen extends StatefulWidget {
 
 class _CatScreenState extends State<CatScreen> {
   final images = DetailBreedController.instance.images;
-  AdmonHelper admonHelper = AdmonHelper();
+  //AdmonHelper admonHelper = AdmonHelper();
 
   @override
   void initState() {
     super.initState();
     DetailBreedController.instance.getImageByBreedID(breedID: widget.breed.id);
-    admonHelper.createCatInterad();
+    //admonHelper.createCatInterad();
   }
 
   @override
@@ -41,13 +41,13 @@ class _CatScreenState extends State<CatScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text('Cat#${widget.index + 1}'),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            admonHelper.showCatInterad();
-            Navigator.of(context).pop();
-          },
-        ),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.arrow_back),
+        //   onPressed: () {
+        //     //admonHelper.showCatInterad();
+        //     Navigator.of(context).pop();
+        //   },
+        // ),
       ),
       body: SingleChildScrollView(
         child: Column(
